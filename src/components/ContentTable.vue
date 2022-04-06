@@ -2,20 +2,25 @@
   <div>
     <div>
     <p class="box-p"> Todos os episódios</p>     
-    <p >caraiso</p>
+    <p >{{isloading}}</p>
     </div>
-    <div style="width: 80%; display: flex; justify-content: center;">
-      <b-table  hover items='items' fields="fields">{{items[0].member}}</b-table>
+    <div style="width: 80%; display: flex; justify-content: center;" items='items' fields="fields">
+      <b-table  hover v-if='items.length>0' ></b-table>
     </div>
   </div>
 </template>
 
 <script>
 import '/home/paulotasso/desafio-codificar/src/assets/styles/Player/fonts.css';
+// import { podcastDataPush, fetchPodcastData} from '/home/paulotasso/desafio-codificar/src/PodcastPage.vue';
 
 export default {
   name: 'ContentTable',
-  props: ['items', 'fields']
+  props: ['items', 'fields', 'isloading'],
+  // methods: {
+  //   fetchPodcastData,
+  //   podcastDataPush
+  // },
   // data() {
   //   return {
 
@@ -46,8 +51,7 @@ export default {
   //   }
   // },
   // mounted() {
-  //   this.items
-  // }
+  //   console.log('mounted',this.fields,'ahaaa' ,JSON.parse(JSON.stringify(this.items)))}
 
 }
 </script>

@@ -6,7 +6,7 @@
             </div>
             <div > 
                 <EpCard />
-                <ContentTable items='items' fields='fields'/>
+                <ContentTable v-bind:items='items' v-bind:fields='fields' isloading="isLoading" />
             </div>
         </div>
         <div >
@@ -24,8 +24,6 @@ import NavBar from './components/NavBar.vue'
 import EpCard from  './components/EpCard.vue'
 
 
-
-
 export default{
     name: 'PodcastPage',
     components: {
@@ -38,36 +36,46 @@ export default{
     data() {
         return {
             fields: ['podcast', 'integrantes', 'data', 'duração'],
-            items: []
+            items: [],
+            isLoading: ''
         }
     },
 
     methods: {
         podcastDataPush(item) {
-            item.episodes.map((ep) => {
+            item.episodes.map((ep, i) => {
                 this.items.push(
                     {
-                    'podcast': ep.title,
-                    'integrantes': ep.members,
-                    'data': ep.published_at,
-                    'duracao': ep?.file?.duration
+                    'podcast': ep[i].title,
+                    'integrantes': ep[i].members,
+                    'data': ep[i].published_at,
+                    'duracao': ep[i]?.file?.duration
                     }
                 )
             })
         },       
 
         fetchPodcastData() {
-        fetch("https://raw.githubusercontent.com/codificar/podcastvalley/main/podcastvalley_data.json")
-        .then(response => response.json())
-        .then(data => {
-            return data
-        })
-        .catch(console.log)
+            fetch("https://raw.githubusercontent.com/codificar/podcastvalley/main/podcastvalley_data.json")
+            .then(response => response.json())
+            .then(data => {
+                console.log('data from fetch', data)
+                this.podcastDataPush(data)
+            })
+            .catch(console.log)
         }        
     },
 
     mounted() {
-        this.podcastDataPush(this.fetchPodcastData())   
+        if(this.items.length === 0) {
+            console.log('before mount',this.items)
+            return this.isLoading ='loading'
+        }else{
+            console.log('array ep',this.items)
+            JSON.parse(JSON.stringify(this.fetchPodcastData()))
+        }
+   
+       
     }
     
 }
