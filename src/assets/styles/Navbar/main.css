@@ -1,0 +1,39 @@
+
+    .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 104px;
+        width: 100%;
+        background: #FFFFFF;
+    }
+    .message {
+        font-size: 14px;
+        line-height: 17px;
+        margin-left: 32px;
+        margin-bottom: 0px;
+    }
+
+    .date {
+        font-size: 14px;
+        line-height: 17px;
+        margin-right: 64px;
+    }
+
+    .text {
+        display: flex;
+        justify-content: space-between;
+        align-items: center ;
+        width: 100%;
+        height: 24px;
+    }
+
+    .logo {
+        height: 24px;
+        width: 259px;
+        border-right: 1px solid grey;
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+        
+    }

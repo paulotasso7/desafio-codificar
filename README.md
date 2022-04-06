@@ -1,5 +1,6 @@
 # desafio-codificar
-
+projeto de criação de telas de um podcast.
+Projeto criado em Vue2 através do `vue create [project-name]`
 ## Project setup
 ```
 npm install
@@ -19,6 +20,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -1,0 +1,12 @@
+.box-p {
+    font-size: 20px; 
+    margin:32px 0px 32px 64px; 
+    font-weight: 600; 
+    width: fit-content; 
+    color:rgba(73, 77, 75, 1)
+}
+
+b-table {
+    color:rgba(171, 168, 178, 1);
+    width: 80%;
+}
