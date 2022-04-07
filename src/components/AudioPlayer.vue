@@ -52,12 +52,13 @@
 <script>
 import KProgress from "k-progress";
 import { formatTimer } from "/home/paulotasso/desafio-codificar/src/helpers/timer.js";
-import { deleteElement, threatSongs, shuffleArray} from "/home/paulotasso/desafio-codificar/src/helpers/utils.js";
-import songs from "/home/paulotasso/desafio-codificar/src/mocks/songs.js";
+import { deleteElement, threatSongs} from "/home/paulotasso/desafio-codificar/src/helpers/utils.js";
+// import songs from "/home/paulotasso/desafio-codificar/src/mocks/songs.js";
 
 
 export default {
   components: { KProgress },
+  props: ['rows',],
   name: "App",
   data() {
     return {
@@ -66,7 +67,7 @@ export default {
       index: 0,
       isPlaying: false,
       currentlyTimer: "00:00",
-      songs: shuffleArray(songs),
+      songs:this.rows?.data?.episodes,
       player: new Audio()
 
     }
@@ -105,11 +106,13 @@ export default {
         this.index = this.songs.indexOf(this.current);
         this.current = song;
         this.player.src = this.current.file.url;
+        
       }
       this.player.play();
       this.isPlaying = true;
       this.setCover();
       this.listenersWhenPlay();
+      console.log('play')
     },
     pause() {
       this.player.pause();

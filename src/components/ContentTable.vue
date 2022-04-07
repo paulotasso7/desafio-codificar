@@ -2,10 +2,10 @@
   <div>
     <div>
     <p class="box-p"> Todos os episódios</p>   
-    <p>{{items}}</p> 
+    <p></p> 
     </div>
     <div style="width: 90%; display: flex; justify-content: center; margin-left: 30px;" >
-      <b-table  hover striped :items="items" :fields="fields"></b-table>
+      <b-table   hover striped :items="items" :fields="fields"></b-table>
     </div>
   </div>
 </template>
@@ -21,7 +21,8 @@ export default {
   data() {
     return {
       items: [],
-      isloading: false
+      isloading: false,
+      as: ''
     }
   },
 
@@ -34,10 +35,10 @@ export default {
         this.rows?.data?.episodes?.map((data)=> {
           this.items.push({
             'podcast': data.title,
-            'integrantes': data.members,
-            'data': data.published_at,
+            'integrantes': data?.members,
+            'data': data?.published_at,
             'duracao': data?.file?.duration,
-            'thumbnail': data.thumbnail
+            'thumbnail': data?.thumbnail
           })
         })
         this.isloading = false 

@@ -5,13 +5,13 @@
                 <NavBar/>
             </div>
             <div > 
-                <EpCard />
+                <EpCard v-bind:rows='rows' />
                 <ContentTable v-bind:rows='rows' v-bind:fields='fields' loading="loading" />
             </div>
         </div>
         <div >
             <div>
-                <AudioPlayer />
+                <AudioPlayer v-bind:rows='rows'/>
             </div>
         </div>
     </div>
@@ -56,7 +56,6 @@ export default{
     mounted() {
         this.loading = true
         this.usingAxios()
-        console.log(this.rows,': at aaxios2')
         this.loading = false
     }
     
