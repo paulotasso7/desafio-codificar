@@ -6,7 +6,7 @@
             </div>
             <div > 
                 <EpCard />
-                <ContentTable v-bind:items='items' v-bind:fields='fields' isloading="isLoading" />
+                <ContentTable v-bind:rows='rows' v-bind:fields='fields' loading="loading" />
             </div>
         </div>
         <div >
@@ -23,7 +23,7 @@ import ContentTable from './components/ContentTable.vue';
 import NavBar from './components/NavBar.vue'
 import EpCard from  './components/EpCard.vue'
 
-
+import axios from 'axios';
 export default{
     name: 'PodcastPage',
     components: {
@@ -35,47 +35,29 @@ export default{
 
     data() {
         return {
-            fields: ['podcast', 'integrantes', 'data', 'duração'],
-            items: [],
-            isLoading: ''
+            fields: ['podcast', 'integrantes', 'data', 'duracao'],
+            rows: [],
+            loading: false
         }
     },
 
     methods: {
-        podcastDataPush(item) {
-            item.episodes.map((ep, i) => {
-                this.items.push(
-                    {
-                    'podcast': ep[i].title,
-                    'integrantes': ep[i].members,
-                    'data': ep[i].published_at,
-                    'duracao': ep[i]?.file?.duration
-                    }
-                )
-            })
-        },       
-
-        fetchPodcastData() {
-            fetch("https://raw.githubusercontent.com/codificar/podcastvalley/main/podcastvalley_data.json")
-            .then(response => response.json())
-            .then(data => {
-                console.log('data from fetch', data)
-                this.podcastDataPush(data)
+        usingAxios ( ) {
+            axios.get('https://raw.githubusercontent.com/codificar/podcastvalley/main/podcastvalley_data.json')
+            .then(res => {                    
+                this.rows = res
+                console.log(this.rows,': at aaxios')
+            
             })
             .catch(console.log)
-        }        
-    },
-
-    mounted() {
-        if(this.items.length === 0) {
-            console.log('before mount',this.items)
-            return this.isLoading ='loading'
-        }else{
-            console.log('array ep',this.items)
-            JSON.parse(JSON.stringify(this.fetchPodcastData()))
         }
-   
-       
+    },
+    
+    mounted() {
+        this.loading = true
+        this.usingAxios()
+        console.log(this.rows,': at aaxios2')
+        this.loading = false
     }
     
 }

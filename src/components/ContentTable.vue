@@ -1,61 +1,64 @@
 <template>
   <div>
     <div>
-    <p class="box-p"> Todos os episódios</p>     
-    <p >{{isloading}}</p>
+    <p class="box-p"> Todos os episódios</p>   
+    <p>{{items}}</p> 
     </div>
-    <div style="width: 80%; display: flex; justify-content: center;" items='items' fields="fields">
-      <b-table  hover v-if='items.length>0' ></b-table>
+    <div style="width: 90%; display: flex; justify-content: center; margin-left: 30px;" >
+      <b-table  hover striped :items="items" :fields="fields"></b-table>
     </div>
   </div>
 </template>
 
 <script>
+
 import '/home/paulotasso/desafio-codificar/src/assets/styles/Player/fonts.css';
-// import { podcastDataPush, fetchPodcastData} from '/home/paulotasso/desafio-codificar/src/PodcastPage.vue';
 
 export default {
   name: 'ContentTable',
-  props: ['items', 'fields', 'isloading'],
-  // methods: {
-  //   fetchPodcastData,
-  //   podcastDataPush
-  // },
-  // data() {
-  //   return {
+  props: ['rows', 'fields'],
 
-  //   }
-  // },
+  data() {
+    return {
+      items: [],
+      isloading: false
+    }
+  },
 
-  // methods: {
+  methods: {
+    // async 
+    pushToTable() {
+      this.isloading = true
+      // try {
+        // await 
+        this.rows?.data?.episodes?.map((data)=> {
+          this.items.push({
+            'podcast': data.title,
+            'integrantes': data.members,
+            'data': data.published_at,
+            'duracao': data?.file?.duration,
+            'thumbnail': data.thumbnail
+          })
+        })
+        this.isloading = false 
+      // } 
+      // catch(e) {
+      //   console.log(e)
+      //   this.isloading = false 
+      // }
 
-  //   // podcastDataPush(item) {
-  //   //   item.episodes.map((ep) => {
-  //   //     this.items.push(
-  //   //       {
-  //   //         'podcast': ep.title,
-  //   //         'integrantes': ep.members,
-  //   //         'data': ep.published_at,
-  //   //         'duracao': ep?.file?.duration
-  //   //       }
-  //   //     )
-  //   //   })
-  //   // },
-    
+      
+    }
 
-  //   fetchPodcastData() {
-  //     fetch("https://raw.githubusercontent.com/codificar/podcastvalley/main/podcastvalley_data.json")
-  //     .then(response => response.json())
-  //     .then(data => this.podcastDataPush(data))
-  //     .catch(console.log)
-  //   }
-  // },
-  // mounted() {
-  //   console.log('mounted',this.fields,'ahaaa' ,JSON.parse(JSON.stringify(this.items)))}
+  },
+
+  mounted() {
+     this.pushToTable()
+  }
 
 }
 </script>
 
-<style>
+<style scoped>
   @import '/home/paulotasso/desafio-codificar/src/assets/styles/ContentTable/main.css';
 </style>
