@@ -5,56 +5,50 @@
     <p></p> 
     </div>
     <div style="width: 90%; display: flex; justify-content: center; margin-left: 30px;" >
-      <b-table   hover striped :items="items" :fields="fields"></b-table>
+      <b-table v-if="loading"  hover :items="items" :fields="fields"></b-table>
     </div>
   </div>
 </template>
 
 <script>
 
+
 import '/home/paulotasso/desafio-codificar/src/assets/styles/Player/fonts.css';
 
 export default {
   name: 'ContentTable',
   props: ['rows', 'fields'],
-
+  
   data() {
     return {
       items: [],
-      isloading: false,
-      as: ''
+      loading: false
     }
   },
 
   methods: {
-    // async 
     pushToTable() {
-      this.isloading = true
-      // try {
-        // await 
+      setTimeout(() => {
+        this.loading = true;
         this.rows?.data?.episodes?.map((data)=> {
           this.items.push({
-            'podcast': data.title,
-            'integrantes': data?.members,
-            'data': data?.published_at,
-            'duracao': data?.file?.duration,
-            'thumbnail': data?.thumbnail
+            'PODCAST': data.title,
+            'INTEGRANTES': data?.members,
+            'DATA': data?.published_at,
+            'DURAÇÃO': data?.file?.duration
           })
         })
-        this.isloading = false 
-      // } 
-      // catch(e) {
-      //   console.log(e)
-      //   this.isloading = false 
-      // }
-
-      
+      },100);
+      this.loading = false
     }
+    
 
   },
 
   mounted() {
-     this.pushToTable()
+    
+     this.pushToTable() 
+  
   }
 
 }

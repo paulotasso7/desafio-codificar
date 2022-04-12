@@ -5,13 +5,13 @@
                 <NavBar/>
             </div>
             <div > 
-                <EpCard v-bind:rows='rows' />
-                <ContentTable v-bind:rows='rows' v-bind:fields='fields' loading="loading" />
+                <EpCard v-bind:rows='rows'/>
+                <ContentTable v-bind:rows='rows' v-bind:fields='fields' />
             </div>
         </div>
         <div >
             <div>
-                <AudioPlayer v-bind:rows='rows'/>
+                <AudioPlayer  v-bind:rows='rows'/>
             </div>
         </div>
     </div>
@@ -24,6 +24,8 @@ import NavBar from './components/NavBar.vue'
 import EpCard from  './components/EpCard.vue'
 
 import axios from 'axios';
+
+
 export default{
     name: 'PodcastPage',
     components: {
@@ -35,28 +37,21 @@ export default{
 
     data() {
         return {
-            fields: ['podcast', 'integrantes', 'data', 'duracao'],
-            rows: [],
-            loading: false
+            fields: ['PODCAST', 'INTEGRANTES', 'DATA', 'DURAÇÃO'],
+            rows: []
         }
     },
 
     methods: {
         usingAxios ( ) {
             axios.get('https://raw.githubusercontent.com/codificar/podcastvalley/main/podcastvalley_data.json')
-            .then(res => {                    
-                this.rows = res
-                console.log(this.rows,': at aaxios')
-            
-            })
+            .then(res => this.rows = res)
             .catch(console.log)
         }
     },
     
     mounted() {
-        this.loading = true
         this.usingAxios()
-        this.loading = false
     }
     
 }

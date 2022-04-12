@@ -1,5 +1,5 @@
 <template>
-
+    
     <main class='dp-flex' >
       <div class="d-row">
         <svg width="30" height="23" viewBox="0 0 30 23" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -10,7 +10,7 @@
         </svg>
         <p id="status">Tocando</p>
       </div>
-      <section class="player">
+      <section class="player" v-if="isLoading">
         <div class="cover-wrapper">
           <img v-bind:class="coverObject" :src="current.thumbnail" />
         </div>
@@ -29,10 +29,7 @@
           </div>
         </div>
         <div class="controls">
-			<!-- <button class="suffle" @click="suffle" >
-				<font-awesome-icon icon="shuffle" />
-			</button> -->
-          <button class="prev" @click="prev" v-if="songs.length > 1">
+          <button class="prev" @click="prev" v-if="this.songs.length !== 0">
             <font-awesome-icon icon="step-backward" />
           </button>
           <button class="play" v-if="!isPlaying" @click="play">
@@ -41,11 +38,14 @@
           <button class="pause" v-else @click="pause">
             <font-awesome-icon icon="pause" />
           </button>
-          <button class="next" @click="next" v-if="songs.length > 1">
+          <button class="next" @click="next" v-if="this.songs.length > 1">
             <font-awesome-icon icon="step-forward" />
           </button>
         </div>
       </section>
+      
+        <h3 v-else> shiiiiiiit</h3>
+      
     </main>
 </template>
 
@@ -53,13 +53,13 @@
 import KProgress from "k-progress";
 import { formatTimer } from "/home/paulotasso/desafio-codificar/src/helpers/timer.js";
 import { deleteElement, threatSongs} from "/home/paulotasso/desafio-codificar/src/helpers/utils.js";
-// import songs from "/home/paulotasso/desafio-codificar/src/mocks/songs.js";
+
 
 
 export default {
   components: { KProgress },
-  props: ['rows',],
-  name: "App",
+  props: ['rows'],
+  name: "AudioPlayer",
   data() {
     return {
       current: {},
@@ -67,8 +67,9 @@ export default {
       index: 0,
       isPlaying: false,
       currentlyTimer: "00:00",
-      songs:this.rows?.data?.episodes,
-      player: new Audio()
+      songs: this.rows?.data?.episodes,
+      player: new Audio(),
+      isLoading: false
 
     }
   },
@@ -83,7 +84,7 @@ export default {
       });
       this.player.addEventListener(
         "ended",
-        function() {
+        function( ) {
           this.next();
         }.bind(this)
       );
@@ -103,9 +104,9 @@ export default {
     play(song) {
       if (typeof song?.file?.url !== "undefined") {
         this.isPlaying = false;
-        this.index = this.songs.indexOf(this.current);
+        this.index = this.songs?.indexOf(this.current);
         this.current = song;
-        this.player.src = this.current.file.url;
+        this.player.src = this.current?.file.url;
         
       }
       this.player.play();
@@ -145,16 +146,26 @@ export default {
         this.songs = deleteElement(this.songs, song);
         this.setCurrentSong();
       }
+    },
+    jow(){
+      
+        setTimeout(()=> {
+          this.isLoading = true
+          this.songs = threatSongs(this.songs);
+          this.current = this.songs[this.index];
+          this.player.src = this?.current?.file?.url;
+          
+        },1000)
+      this.isLoading = false
     }
-    
   },
-  
+
+
   mounted() {
-    this.songs = threatSongs(this.songs);
-    this.current = this.songs[this.index];
-    this.player.src = this?.current?.file?.url;
-  }
-};
+    this.jow()
+   }
+
+}
 </script>
 
 <style scoped>
